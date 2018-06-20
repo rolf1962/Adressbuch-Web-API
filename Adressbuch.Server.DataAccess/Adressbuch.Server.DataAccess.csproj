@@ -54,6 +54,7 @@
     <Compile Include="IQueryAdresseRepository.cs" />
     <Compile Include="IQueryPersonRepository.cs" />
     <Compile Include="PersonRepository.cs" />
+    <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,12 +63,8 @@
       <Name>Adressbuch.DataTransfer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Adressbuch.DbModel\Adressbuch.Server.DbModel.csproj">
-      <Project>{b81b3b83-cf25-4575-bfb4-948e13dd99aa}</Project>
+      <Project>{d351d51a-28dd-4387-ad84-a728ce9b31ac}</Project>
       <Name>Adressbuch.Server.DbModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Adressbuch.Tools\Adressbuch.Tools.csproj">
-      <Project>{55a09838-9069-42fe-8a7d-55eafaf95d65}</Project>
-      <Name>Adressbuch.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Adressbuch.DbModel\Adressbuch.Server.DbModel.csproj" />
+    <ProjectReference Include="..\Adressbuch.Server.DataAccess\Adressbuch.Server.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

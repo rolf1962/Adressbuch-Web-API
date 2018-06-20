@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Adressbuch.DataService
+namespace Adressbuch.Server.DataService
 {
     public class Program
     {

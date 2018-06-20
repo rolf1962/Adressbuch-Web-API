@@ -9,10 +9,10 @@ namespace Adressbuch.Server.DataAccess
 {
     public interface IPersonRepository : IQueryPersonRepository
     {
-        void AddPerson(PersonDto personDto);
+        Task AddPersonAsync(PersonDto personDto);
 
-        void UpdatePerson(Guid id, PersonDto personDto);
+        Task UpdatePersonAsync(Guid id, PersonDto personDto);
 
-        void DeletePerson(Guid id);
+        Task DeletePersonAsync(Guid id);
     }
 }

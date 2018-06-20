@@ -9,12 +9,12 @@ namespace Adressbuch.Server.DataAccess
 {
     public interface IQueryAdresseRepository
     {
-        IEnumerable<AdresseDto> GetAll();
+        Task< IEnumerable<AdresseDto>> GetAllAsync();
 
-        AdresseDto GetById(Guid id);
+        Task<AdresseDto> GetByIdAsync(Guid id);
 
-        IEnumerable<AdresseDto> Get(AdresseDto searchCriteria);
+        Task<IEnumerable<AdresseDto>> GetByCriteriaAsync(AdresseDto searchCriteria);
 
-        IEnumerable<AdresseDto> GetByPersonId(Guid personId);
+        Task<IEnumerable<AdresseDto>> GetByPersonIdAsync(Guid personId);
     }
 }

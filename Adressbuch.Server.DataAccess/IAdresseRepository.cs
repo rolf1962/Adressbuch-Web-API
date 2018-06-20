@@ -9,10 +9,10 @@ namespace Adressbuch.Server.DataAccess
 {
     public interface IAdresseRepository : IQueryAdresseRepository
     {
-        void AddAdresse(AdresseDto adresseDto);
+        Task AddAdresseAsync(AdresseDto adresseDto);
 
-        void UpdateAdresse(Guid id, AdresseDto adresseDto);
+        Task UpdateAdresseAsync(Guid id, AdresseDto adresseDto);
 
-        void DeleteAdresse(Guid id);
+        Task DeleteAdresseAsync(Guid id);
     }
 }

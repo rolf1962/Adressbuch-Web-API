@@ -13,7 +13,7 @@ namespace Adressbuch.Client.DataAccess
 {
     public class PersonRepository
     {
-        private const string _uri = "http://localhost";
+        private const string _uri = "http://localhost:61352";
         private HttpClient _httpClient;
 
         public PersonRepository()
@@ -70,7 +70,7 @@ namespace Adressbuch.Client.DataAccess
 
         public async Task Delete(Guid id)
         {
-            string requestUri = string.Format("/adressbuch.server.dataservice/api/persons/{0}", id);
+            string requestUri = string.Format("/api/people/{0}", id);
 
             using (HttpResponseMessage serverResponse = await _httpClient.DeleteAsync(requestUri))
             {
@@ -80,7 +80,7 @@ namespace Adressbuch.Client.DataAccess
         public async Task<IEnumerable<PersonViewModel>> GetAll()
         {
             IEnumerable<PersonViewModel> returnValue = null;
-            string requestUri = "/adressbuch.server.dataservice/api/persons";
+            string requestUri = "/api/people";
 
             using (HttpResponseMessage response = await _httpClient.GetAsync(requestUri))
             {
@@ -98,7 +98,7 @@ namespace Adressbuch.Client.DataAccess
         public async Task<PersonViewModel> GetById(Guid id)
         {
             PersonViewModel returnValue = null;
-            string requestUri = string.Format("/adressbuch.server.dataservice/api/persons/{0}", id);
+            string requestUri = string.Format("/api/people/{0}", id);
 
             using (HttpResponseMessage serverResponse = await _httpClient.GetAsync(requestUri))
             {
@@ -115,7 +115,7 @@ namespace Adressbuch.Client.DataAccess
 
         public async Task Insert(PersonViewModel viewModel)
         {
-            string requestUri = "/adressbuch.server.dataservice/api/persons";
+            string requestUri = "/api/people";
             string requestBody = JsonConvert.SerializeObject(CopyViewModelToDto(viewModel));
 
             using (var serverResponse = await _httpClient.PostAsync(requestUri, new StringContent(requestBody, Encoding.UTF8, "application/json")))
@@ -125,7 +125,7 @@ namespace Adressbuch.Client.DataAccess
 
         public async Task Update(Guid id, PersonViewModel viewModel)
         {
-            string requestUri = string.Format("/adressbuch.server.dataservice/api/persons/{0}", viewModel.Id);
+            string requestUri = string.Format("/api/people/{0}", viewModel.Id);
 
             viewModel.Modified = DateTime.Now;
             viewModel.ModifiedBy = "Auch Rolf";

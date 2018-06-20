@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Adressbuch.DataTransfer;
 using Adressbuch.Server.DbModel;
-using Adressbuch.Tools;
 
 namespace Adressbuch.Server.DataAccess
 {
@@ -14,27 +14,27 @@ namespace Adressbuch.Server.DataAccess
     {
         private AdressbuchDbContext _adressbuchDbContext;
 
-        public AdresseRepository()
+        public AdresseRepository(AdressbuchDbContext adressbuchDbContext)
         {
-            _adressbuchDbContext = new AdressbuchDbContext();
+            _adressbuchDbContext = adressbuchDbContext;
         }
 
 
-        public void AddAdresse(AdresseDto AdresseDto)
+        public async Task AddAdresseAsync(AdresseDto AdresseDto)
         {
-            var Adresse = _adressbuchDbContext.Adressen.Add(CopyDtoToDbModel(AdresseDto));
-            _adressbuchDbContext.SaveChanges();
+            _adressbuchDbContext.Adressen.Add(CopyDtoToDbModel(AdresseDto));
+            await _adressbuchDbContext.SaveChangesAsync();
         }
 
-        public void DeleteAdresse(Guid id)
+        public async Task DeleteAdresseAsync(Guid id)
         {
-            _adressbuchDbContext.Adressen.Remove(_adressbuchDbContext.Adressen.SingleOrDefault(p => p.Id == id));
-            _adressbuchDbContext.SaveChanges();
+            _adressbuchDbContext.Adressen.Remove(await _adressbuchDbContext.Adressen.SingleOrDefaultAsync(p => p.Id == id));
+            await _adressbuchDbContext.SaveChangesAsync();
         }
 
-        public void UpdateAdresse(Guid id, AdresseDto adresseDto)
+        public async Task UpdateAdresseAsync(Guid id, AdresseDto adresseDto)
         {
-            Adresse Adresse = _adressbuchDbContext.Adressen.SingleOrDefault(a => a.Id == id);
+            Adresse Adresse = await _adressbuchDbContext.Adressen.SingleOrDefaultAsync(a => a.Id == id);
             if (null != Adresse)
             {
                 Adresse.Plz = adresseDto.Plz;
@@ -47,24 +47,27 @@ namespace Adressbuch.Server.DataAccess
                 Adresse.Modified = adresseDto.Modified;
                 Adresse.ModifiedBy = adresseDto.ModifiedBy;
             }
+            await _adressbuchDbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<AdresseDto> GetAll()
+        public async Task<IEnumerable<AdresseDto>> GetAllAsync()
         {
-            return _adressbuchDbContext.Adressen.Select(CopyDbModelToDto).ToList();
+            var dbResult = await _adressbuchDbContext.Adressen.ToListAsync();
+            return dbResult.Select(CopyDbModelToDto).ToList();
         }
 
-        public IEnumerable<AdresseDto> GetByPersonId(Guid personId)
+        public async Task<IEnumerable<AdresseDto>> GetByPersonIdAsync(Guid personId)
         {
-            return _adressbuchDbContext.Personen.SingleOrDefault(a => a.Id == personId)?.Adressen.Select(CopyDbModelToDto);
+            var dbResult = await _adressbuchDbContext.Personen.SingleOrDefaultAsync(a => a.Id == personId);
+            return dbResult?.Adressen.Select(CopyDbModelToDto);
         }
 
-        public AdresseDto GetById(Guid id)
+        public async Task<AdresseDto> GetByIdAsync(Guid id)
         {
-            return CopyDbModelToDto(_adressbuchDbContext.Adressen.SingleOrDefault(p => p.Id == id));
+            return CopyDbModelToDto(await _adressbuchDbContext.Adressen.SingleOrDefaultAsync(p => p.Id == id));
         }
 
-        public IEnumerable<AdresseDto> Get(AdresseDto searchCriteria)
+        public async Task< IEnumerable<AdresseDto>> GetByCriteriaAsync(AdresseDto searchCriteria)
         {
             var filter = PredicateBuilder.True<Adresse>();
 
@@ -108,7 +111,8 @@ namespace Adressbuch.Server.DataAccess
                 }
             }
 
-            return _adressbuchDbContext.Adressen.Where(filter).Select(CopyDbModelToDto);
+            var dbResult = await Task.Run(() => _adressbuchDbContext.Adressen.Where(filter));
+            return dbResult.Select(CopyDbModelToDto);
         }
 
         private AdresseDto CopyDbModelToDto(Adresse Adresse)
