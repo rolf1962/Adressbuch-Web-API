@@ -12,86 +12,122 @@
     <Window.Resources>
         <local:NullToFalseConverter x:Key="nullToFalseConverter"/>
     </Window.Resources>
-    <TabControl>
-        <TabItem Header="Alle Personen">
-            <DockPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
-                    <!--<Button Content="Alle Personen laden" Command="{Binding PersonenGetAllCmd}"/>-->
-                    <Button Content="Neue Person" Command="{Binding Path=PersonNewCmd}"/>
-                    <Button Content="Person bearbeiten" Command="{Binding PersonGetByIdCmd}" CommandParameter="{Binding ElementName=dataGrid, Path=SelectedValue}"/>
-                    <Button Content="Person löschen" Command="{Binding PersonDeleteCmd}" CommandParameter="{Binding ElementName=dataGrid, Path=SelectedValue}"/>
-                </StackPanel>
-                <DataGrid Name="dataGrid" DockPanel.Dock="Top" 
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <DockPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Width" Value="100"/>
+                </Style>
+            </DockPanel.Resources>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+                <Button Content="Suchen" Command="{Binding Path=PersonSearchCmd}" />
+            </StackPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="Nachname:" DockPanel.Dock="Left"/>
+                <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.NameLO}"
+                          ItemsSource="{Binding PersonSuchKriterien.NameLOs}" />
+                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Name}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="Vorname:" DockPanel.Dock="Left"/>
+                <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.VornameLO}"
+                          ItemsSource="{Binding PersonSuchKriterien.VornameLOs}" />
+                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Vorname}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="Geburtsdatum von:" DockPanel.Dock="Left"/>
+                <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.GeburtsdatumVonLO}"
+                          ItemsSource="{Binding PersonSuchKriterien.GeburtsdatumVonLOs}" />
+                <DatePicker DockPanel.Dock="Left" SelectedDate="{Binding PersonSuchKriterien.GeburtsdatumVon}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Label Content="Geburtsdatum bis:" DockPanel.Dock="Left"/>
+                <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.GeburtsdatumBisLO}"
+                          ItemsSource="{Binding PersonSuchKriterien.GeburtsdatumBisLOs}" />
+                <DatePicker DockPanel.Dock="Left" SelectedDate="{Binding PersonSuchKriterien.GeburtsdatumBis}"/>
+            </DockPanel>
+        </DockPanel>
+        <TabControl DockPanel.Dock="Top">
+            <TabItem Header="Alle Personen">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
+                        <!--<Button Content="Alle Personen laden" Command="{Binding PersonenGetAllCmd}"/>-->
+                        <Button Content="Neue Person" Command="{Binding Path=PersonNewCmd}"/>
+                        <Button Content="Person bearbeiten" Command="{Binding PersonGetByIdCmd}" CommandParameter="{Binding ElementName=dataGrid, Path=SelectedValue}"/>
+                        <Button Content="Person löschen" Command="{Binding PersonDeleteCmd}" CommandParameter="{Binding ElementName=dataGrid, Path=SelectedValue}"/>
+                    </StackPanel>
+                    <DataGrid Name="dataGrid" DockPanel.Dock="Top" 
                   AutoGenerateColumns="False"
                   IsReadOnly="True"
                   ItemsSource="{Binding Personen}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
-                        <DataGridTextColumn Header="Vorname" Binding="{Binding Path=Vorname}"/>
-                        <DataGridTemplateColumn Header="Geburtsdatum" SortMemberPath="Geburtsdatum">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DatePicker SelectedDate="{Binding Path=Geburtsdatum}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </TabItem>
-        <TabItem Header="Details" IsEnabled="{Binding Path=Person, Converter={StaticResource nullToFalseConverter}}" IsSelected="{Binding Path=DetailsTabSelected}">
-            <TabItem.Style>
-                <Style TargetType="TabItem">
-                    <Setter Property="IsSelected" Value="False"/>
-                    <Style.Triggers>
-                        <DataTrigger Value="True" Binding="{Binding Path=Person.IsChanged}">
-                            <Setter Property="IsSelected" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TabItem.Style>
-            <DockPanel LastChildFill="False">
-                <DockPanel.Resources>
-                    <Style TargetType="{x:Type Label}">
-                        <Setter Property="Width" Value="120"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}"/>
+                            <DataGridTextColumn Header="Vorname" Binding="{Binding Path=Vorname}"/>
+                            <DataGridTemplateColumn Header="Geburtsdatum" SortMemberPath="Geburtsdatum">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding Path=Geburtsdatum}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Details" IsEnabled="{Binding Path=Person, Converter={StaticResource nullToFalseConverter}}" IsSelected="{Binding Path=DetailsTabSelected}">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Setter Property="IsSelected" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Value="True" Binding="{Binding Path=Person.IsChanged}">
+                                <Setter Property="IsSelected" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
-                </DockPanel.Resources>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
-                    <Button Content="Speichern" Command="{Binding PersonSaveCmd}" CommandParameter="{Binding Person}" />
-                </StackPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="ID:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.Id}"/>
+                </TabItem.Style>
+                <DockPanel LastChildFill="False">
+                    <DockPanel.Resources>
+                        <Style TargetType="{x:Type Label}">
+                            <Setter Property="Width" Value="120"/>
+                        </Style>
+                    </DockPanel.Resources>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
+                        <Button Content="Speichern" Command="{Binding PersonSaveCmd}" CommandParameter="{Binding Person}" />
+                    </StackPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="ID:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.Id}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Vorname:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.Vorname}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Jansen:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.Name}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Geburtsdatum:" DockPanel.Dock="Left"/>
+                        <DatePicker SelectedDate="{Binding Path=Person.Geburtsdatum}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Erstellt von:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.CreatedBy}" IsReadOnly="True"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Erstellt am:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.Created}" IsReadOnly="True"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Geändert von:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.ModifiedBy}" IsReadOnly="True"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label Content="Geändert am:" DockPanel.Dock="Left"/>
+                        <TextBox Text="{Binding Path=Person.Modified}"/>
+                    </DockPanel>
                 </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Vorname:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.Vorname}"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Jansen:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.Name}"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Geburtsdatum:" DockPanel.Dock="Left"/>
-                    <DatePicker SelectedDate="{Binding Path=Person.Geburtsdatum}"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Erstellt von:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.CreatedBy}" IsReadOnly="True"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Erstellt am:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.Created}" IsReadOnly="True"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Geändert von:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.ModifiedBy}" IsReadOnly="True"/>
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Label Content="Geändert am:" DockPanel.Dock="Left"/>
-                    <TextBox Text="{Binding Path=Person.Modified}"/>
-                </DockPanel>
-            </DockPanel>
-        </TabItem>
-    </TabControl>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </Window>

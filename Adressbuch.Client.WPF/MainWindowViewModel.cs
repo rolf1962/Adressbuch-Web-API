@@ -24,8 +24,22 @@ namespace Adressbuch.Client.WPF
             PersonDeleteCmd = new RelayCommand(async p => await PersonDeleteCmdExec(p), p => PersonDeleteCmdCanExec(p));
             PersonSaveCmd = new RelayCommand(async p => await PersonSaveCmdExec(p), p => PersonSaveCmdCanExec(p));
             PersonNewCmd = new RelayCommand(p => PersonNewCmdExec(p), p => PersonNewCmdCanExec(p));
+            PersonSearchCmd = new RelayCommand(async p => await PersonSearchCmdExec(p), p => PersonSearchCmdCanExec(p));
+        }
 
-            Task.Run(LoadPersons);
+        private bool PersonSearchCmdCanExec(object p)
+        {
+            return
+                null != PersonSuchKriterien.Name ||
+                null != PersonSuchKriterien.Vorname ||
+                null != PersonSuchKriterien.GeburtsdatumVon ||
+                null != PersonSuchKriterien.GeburtsdatumBis;
+        }
+
+        private async Task PersonSearchCmdExec(object p)
+        {
+            PersonRepository personRepository = new PersonRepository();
+            Personen = new ObservableCollection<PersonViewModel>(await personRepository.GetFiltered(PersonSuchKriterien));
         }
 
         private bool PersonNewCmdCanExec(object p)
@@ -35,13 +49,14 @@ namespace Adressbuch.Client.WPF
 
         private void PersonNewCmdExec(object p)
         {
-            Person = new PersonViewModel() {
+            Person = new PersonViewModel()
+            {
 
-                Name= "",
-                Vorname= "",
-                Geburtsdatum= null,
-                Created= DateTime.Now,
-                CreatedBy= "Rolf"
+                Name = "",
+                Vorname = "",
+                Geburtsdatum = null,
+                Created = DateTime.Now,
+                CreatedBy = "Rolf"
             };
             DetailsTabSelected = true;
         }
@@ -124,7 +139,7 @@ namespace Adressbuch.Client.WPF
             Personen = new ObservableCollection<PersonViewModel>(await personRepository.GetAll());
         }
 
-        private async Task LoadPersons()
+        private async Task LoadPeople()
         {
             if (PersonenGetAllCmdCanExec(null))
             {
@@ -137,6 +152,7 @@ namespace Adressbuch.Client.WPF
         public RelayCommand PersonDeleteCmd { get; private set; }
         public RelayCommand PersonSaveCmd { get; private set; }
         public RelayCommand PersonNewCmd { get; set; }
+        public RelayCommand PersonSearchCmd { get; set; }
 
         public ObservableCollection<PersonViewModel> Personen
         {
@@ -166,6 +182,8 @@ namespace Adressbuch.Client.WPF
                 }
             }
         }
+
+        public PersonSearchViewModel PersonSuchKriterien { get; } = new PersonSearchViewModel();
 
         public bool DetailsTabSelected
         {

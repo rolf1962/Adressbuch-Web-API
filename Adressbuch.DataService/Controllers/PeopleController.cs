@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Adressbuch.DataTransfer;
 using Adressbuch.Server.DataAccess;
 using Adressbuch.Server.DbModel;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,12 @@ namespace Adressbuch.Server.DataService.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             return Ok(await _repository.GetByIdAsync(id));
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> PostAndGetBySearchCriteria([FromBody]PersonSearchDto searchCriteria)
+        {
+            return Ok(await _repository.GetByCriteriaAsync(searchCriteria));
         }
 
         [HttpDelete("{id}")]

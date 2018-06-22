@@ -54,6 +54,10 @@
       <Project>{9d14abff-c308-414a-8117-f366375a70b7}</Project>
       <Name>Adressbuch.Client.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Adressbuch.Common\Adressbuch.Common.csproj">
+      <Project>{7A68EB62-8C91-4689-8F95-51F54C356741}</Project>
+      <Name>Adressbuch.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Adressbuch.DataTransfer\Adressbuch.DataTransfer.csproj">
       <Project>{f570b97c-5b28-4799-ae44-8df8cf4fa9a5}</Project>
       <Name>Adressbuch.DataTransfer</Name>

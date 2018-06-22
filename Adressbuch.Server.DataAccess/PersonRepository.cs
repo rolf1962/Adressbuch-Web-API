@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Adressbuch.DataTransfer;
 using Adressbuch.Server.DbModel;
 using System.Data.Entity;
+using Adressbuch.Common;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Adressbuch.Server.DataAccess
 {
@@ -56,7 +59,7 @@ namespace Adressbuch.Server.DataAccess
             return dbResult.Select(CopyDbModelToDto);
         }
 
-        public async Task< IEnumerable<PersonDto>> GetByAdresseIdAsync(Guid adresseId)
+        public async Task<IEnumerable<PersonDto>> GetByAdresseIdAsync(Guid adresseId)
         {
             var dbResult = await _adressbuchDbContext.Adressen
                 .SingleOrDefaultAsync(a => a.Id == adresseId);
@@ -68,51 +71,70 @@ namespace Adressbuch.Server.DataAccess
             return CopyDbModelToDto(await _adressbuchDbContext.Personen.SingleOrDefaultAsync(p => p.Id == id));
         }
 
-        public async Task< IEnumerable<PersonDto>> GetByCriteriaAsync(PersonDto searchCriteria)
+        public async Task<IEnumerable<PersonDto>> GetByCriteriaAsync(PersonSearchDto searchCriteria)
         {
             var filter = PredicateBuilder.True<Person>();
 
-            if (!string.IsNullOrWhiteSpace(searchCriteria.Name))
+            if (searchCriteria.Name.IsSpecified)
             {
-                if (searchCriteria.Name.StartsWith("%") && searchCriteria.Name.EndsWith("%"))
+                switch (searchCriteria.Name.LogicalOperator)
                 {
-                    filter = filter.And(p => p.Name.Contains(searchCriteria.Name.Trim(new char[] { '%' })));
-                }
-                else if (searchCriteria.Name.StartsWith("%"))
-                {
-                    filter = filter.And(p => p.Name.EndsWith(searchCriteria.Name.Trim(new char[] { '%' })));
-                }
-                else if (searchCriteria.Name.EndsWith("%"))
-                {
-                    filter = filter.And(p => p.Name.StartsWith(searchCriteria.Name.Trim(new char[] { '%' })));
-                }
-                else
-                {
-                    filter = filter.And(p => 0 == string.Compare(p.Name, searchCriteria.Name.Trim(new char[] { '%' }), true));
+                    case LogicalOperators.Equals:
+                        //filter = filter.And(p => 0 == string.Compare(p.Name, searchCriteria.Name.Value.Trim(new char[] { '%' }), true));
+                        filter = filter.And(p => 0 == string.Compare(p.Name, searchCriteria.Name.Value, true));
+                        break;
+                    case LogicalOperators.Contains:
+                        filter = filter.And(p => p.Name.Contains(searchCriteria.Name.Value));
+                        break;
+                    case LogicalOperators.StartsWith:
+                        filter = filter.And(p => p.Name.StartsWith(searchCriteria.Name.Value));//, true, CultureInfo.InvariantCulture
+                        break;
+                    case LogicalOperators.EndsWith:
+                        filter = filter.And(p => p.Name.EndsWith(searchCriteria.Name.Value));
+                        break;
+                    default:
+                        throw new Exception(string.Format(
+                            "Logischer Operator '{0}' wird für den Typ {1} nicht unterstützt.",
+                            Enum.GetName(typeof(LogicalOperators), searchCriteria.Name.LogicalOperator),
+                            searchCriteria.Name.Value.GetType().Name));
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(searchCriteria.Vorname))
+            if (searchCriteria.Vorname.IsSpecified)
             {
-                if (searchCriteria.Vorname.StartsWith("%") && searchCriteria.Vorname.EndsWith("%"))
+                switch (searchCriteria.Vorname.LogicalOperator)
                 {
-                    filter = filter.And(p => p.Vorname.Contains(searchCriteria.Vorname.Trim(new char[] { '%' })));
-                }
-                else if (searchCriteria.Vorname.StartsWith("%"))
-                {
-                    filter = filter.And(p => p.Vorname.EndsWith(searchCriteria.Vorname.Trim(new char[] { '%' })));
-                }
-                else if (searchCriteria.Vorname.EndsWith("%"))
-                {
-                    filter = filter.And(p => p.Vorname.StartsWith(searchCriteria.Vorname.Trim(new char[] { '%' })));
-                }
-                else
-                {
-                    filter = filter.And(p => 0 == string.Compare(p.Vorname, searchCriteria.Vorname.Trim(new char[] { '%' }), true));
+                    case LogicalOperators.Equals:
+                        filter = filter.And(p => 0 == string.Compare(p.Vorname, searchCriteria.Vorname.Value, true));
+                        break;
+                    case LogicalOperators.Contains:
+                        filter = filter.And(p => p.Vorname.Contains(searchCriteria.Vorname.Value));
+                        break;
+                    case LogicalOperators.StartsWith:
+                        filter = filter.And(p => p.Vorname.StartsWith(searchCriteria.Vorname.Value));
+                        break;
+                    case LogicalOperators.EndsWith:
+                        filter = filter.And(p => p.Vorname.EndsWith(searchCriteria.Vorname.Value));
+                        break;
+                    default:
+                        throw new Exception(string.Format(
+                            "Logischer Operator '{0}' wird für den Typ {1} nicht unterstützt.",
+                            Enum.GetName(typeof(LogicalOperators), searchCriteria.Vorname.LogicalOperator),
+                            searchCriteria.Vorname.Value.GetType().Name));
                 }
             }
 
-            var dbResult = await Task.Run(()=> _adressbuchDbContext.Personen.Where(filter));
+            if (searchCriteria.GeburtsdatumVon.IsSpecified)
+            {
+                switch (searchCriteria.GeburtsdatumVon.LogicalOperator)
+                {
+                    case LogicalOperators.Equals:
+                        filter = filter.And(p => p.Geburtsdatum == searchCriteria.GeburtsdatumVon.Value);
+                        break;
+                }
+            }
+
+            var dbResult = await _adressbuchDbContext.Personen.Where(filter).ToListAsync();
             return dbResult.Select(CopyDbModelToDto);
         }
 

@@ -46,10 +46,18 @@
     <Compile Include="AdresseDto.cs" />
     <Compile Include="DtoBase.cs" />
     <Compile Include="PersonDto.cs" />
+    <Compile Include="PersonSearchDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Adressbuch.Common\Adressbuch.Common.csproj">
+      <Project>{7A68EB62-8C91-4689-8F95-51F54C356741}</Project>
+      <Name>Adressbuch.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

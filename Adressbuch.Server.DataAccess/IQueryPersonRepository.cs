@@ -13,7 +13,7 @@ namespace Adressbuch.Server.DataAccess
 
         Task<PersonDto> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<PersonDto>> GetByCriteriaAsync(PersonDto searchCriteria);
+        Task<IEnumerable<PersonDto>> GetByCriteriaAsync(PersonSearchDto searchCriteria);
 
         Task<IEnumerable<PersonDto>> GetByAdresseIdAsync(Guid adresseId);
     }

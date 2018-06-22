@@ -79,7 +79,6 @@ namespace Adressbuch.Client.ViewModel
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {

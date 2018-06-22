@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Adressbuch.Client.ViewModel;
 using Adressbuch.DataTransfer;
@@ -135,6 +136,88 @@ namespace Adressbuch.Client.DataAccess
             using (var serverResponse = await _httpClient.PutAsync(requestUri, new StringContent(requestBody, Encoding.UTF8, "application/json")))
             {
             }
+        }
+
+        private PersonSearchDto CopySearchViewModelToDto(PersonSearchViewModel viewModel)
+        {
+            PersonSearchDto personSearchDto = new PersonSearchDto();
+
+            if (string.IsNullOrWhiteSpace(viewModel.Name))
+            {
+                personSearchDto.Name.Value = null;
+                personSearchDto.Name.LogicalOperator = Common.LogicalOperators.Equals;
+                personSearchDto.Name.IsSpecified = false;
+            }
+            else
+            {
+                personSearchDto.Name.Value = viewModel.Name;
+                personSearchDto.Name.LogicalOperator = viewModel.NameLO;
+                personSearchDto.Name.IsSpecified = true;
+            }
+
+            if (string.IsNullOrWhiteSpace( viewModel.Vorname))
+            {
+                personSearchDto.Vorname.Value = null;
+                personSearchDto.Vorname.LogicalOperator = Common.LogicalOperators.Equals;
+                personSearchDto.Vorname.IsSpecified = false;
+            }
+            else
+            {
+                personSearchDto.Vorname.Value = viewModel.Vorname;
+                personSearchDto.Vorname.LogicalOperator = viewModel.VornameLO;
+                personSearchDto.Vorname.IsSpecified = true;
+            }
+
+            if (null == viewModel.GeburtsdatumVon)
+            {
+                personSearchDto.GeburtsdatumVon.Value = null;
+                personSearchDto.GeburtsdatumVon.LogicalOperator = Common.LogicalOperators.Equals;
+                personSearchDto.GeburtsdatumVon.IsSpecified = false;
+            }
+            else
+            {
+                personSearchDto.GeburtsdatumVon.Value = viewModel.GeburtsdatumVon;
+                personSearchDto.GeburtsdatumVon.LogicalOperator = viewModel.GeburtsdatumVonLO;
+                personSearchDto.GeburtsdatumVon.IsSpecified = true;
+            }
+
+            if (null == viewModel.GeburtsdatumBis)
+            {
+                personSearchDto.GeburtsdatumBis.Value = null;
+                personSearchDto.GeburtsdatumBis.LogicalOperator = Common.LogicalOperators.Equals;
+                personSearchDto.GeburtsdatumBis.IsSpecified = false;
+            }
+            else
+            {
+                personSearchDto.GeburtsdatumBis.Value = viewModel.GeburtsdatumBis;
+                personSearchDto.GeburtsdatumBis.LogicalOperator = viewModel.GeburtsdatumBisLO;
+                personSearchDto.GeburtsdatumBis.IsSpecified = true;
+            }
+
+            return personSearchDto;
+        }
+
+        public async Task<IEnumerable<PersonViewModel>> GetFiltered(PersonSearchViewModel viewModel)
+        {
+            IEnumerable<PersonViewModel> returnValue = null;
+            PersonSearchDto personSearchDto = CopySearchViewModelToDto(viewModel);
+
+            string requestUri = string.Format($"/api/people/search");
+
+            var requestBody = JsonConvert.SerializeObject(personSearchDto);
+            var stringContent = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+            using (var response = await _httpClient.PostAsync(requestUri, stringContent, CancellationToken.None))
+            {
+                using (HttpContent content = response.Content)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var personDtos = JsonConvert.DeserializeObject<IEnumerable<PersonDto>>(responseBody);
+                    returnValue = personDtos.Select(CopyDtoToViewModel);
+                }
+            }
+
+            return returnValue;
         }
     }
 }
