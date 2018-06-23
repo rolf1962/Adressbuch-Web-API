@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Adressbuch.Client.ViewModel\Adressbuch.Client.ViewModel.csproj">
+    <ProjectReference Include="..\Adressbuch.Client.ViewModel\Adressbuch.Client.DataViewModel.csproj">
       <Project>{9d14abff-c308-414a-8117-f366375a70b7}</Project>
-      <Name>Adressbuch.Client.ViewModel</Name>
+      <Name>Adressbuch.Client.DataViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Adressbuch.Common\Adressbuch.Common.csproj">
       <Project>{7A68EB62-8C91-4689-8F95-51F54C356741}</Project>

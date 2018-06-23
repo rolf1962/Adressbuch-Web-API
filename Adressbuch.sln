@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adressbuch.Server.DataServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adressbuch.Server.DbModel", "Adressbuch.DbModel\Adressbuch.Server.DbModel.csproj", "{D351D51A-28DD-4387-AD84-A728CE9B31AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adressbuch.Client.ViewModel", "Adressbuch.Client.ViewModel\Adressbuch.Client.ViewModel.csproj", "{9D14ABFF-C308-414A-8117-F366375A70B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adressbuch.Client.DataViewModel", "Adressbuch.Client.ViewModel\Adressbuch.Client.DataViewModel.csproj", "{9D14ABFF-C308-414A-8117-F366375A70B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adressbuch.Client.WPF", "Adressbuch.Client.WPF\Adressbuch.Client.WPF.csproj", "{304ABC38-A9A4-42C0-9E41-D414546DAF09}"
 EndProject

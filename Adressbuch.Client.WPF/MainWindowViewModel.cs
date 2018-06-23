@@ -1,5 +1,5 @@
 ﻿using Adressbuch.Client.DataAccess;
-using Adressbuch.Client.ViewModel;
+using Adressbuch.Client.DataViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,10 +30,10 @@ namespace Adressbuch.Client.WPF
         private bool PersonSearchCmdCanExec(object p)
         {
             return
-                null != PersonSuchKriterien.Name ||
-                null != PersonSuchKriterien.Vorname ||
-                null != PersonSuchKriterien.GeburtsdatumVon ||
-                null != PersonSuchKriterien.GeburtsdatumBis;
+                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Name)) ||
+                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Vorname)) ||
+                PersonSuchKriterien.GeburtsdatumVon.HasValue ||
+                PersonSuchKriterien.GeburtsdatumBis.HasValue;
         }
 
         private async Task PersonSearchCmdExec(object p)

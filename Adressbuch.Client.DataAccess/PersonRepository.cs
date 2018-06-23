@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Adressbuch.Client.ViewModel;
+using Adressbuch.Client.DataViewModel;
 using Adressbuch.DataTransfer;
 using Newtonsoft.Json;
 

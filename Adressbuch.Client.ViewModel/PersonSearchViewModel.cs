@@ -1,4 +1,5 @@
 ﻿using Adressbuch.Common;
+using Adressbuch.DataTransfer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Adressbuch.Client.ViewModel
+namespace Adressbuch.Client.DataViewModel
 {
     public class PersonSearchViewModel : ViewModelBase
     {
@@ -22,12 +23,11 @@ namespace Adressbuch.Client.ViewModel
 
         public PersonSearchViewModel()
         {
-            var lOs = Enum.GetValues(typeof(LogicalOperators));
-
-            NameLOs = lOs.Cast<LogicalOperators>();
-            VornameLOs= lOs.Cast<LogicalOperators>();
-            GeburtsdatumVonLOs = lOs.Cast<LogicalOperators>();
-            GeburtsdatumBisLOs = lOs.Cast<LogicalOperators>();
+            PersonSearchDto personSearchDto = new PersonSearchDto();
+            NameLOs= personSearchDto.Name.ValidOperators;
+            VornameLOs = personSearchDto.Vorname.ValidOperators;
+            GeburtsdatumVonLOs = personSearchDto.GeburtsdatumVon.ValidOperators;
+            GeburtsdatumBisLOs = personSearchDto.GeburtsdatumBis.ValidOperators;
         }
 
         public string Name
@@ -55,6 +55,7 @@ namespace Adressbuch.Client.ViewModel
                 }
             }
         }
+
         public DateTime? GeburtsdatumVon
         {
             get { return _geburtsdatumVon; }
@@ -133,9 +134,9 @@ namespace Adressbuch.Client.ViewModel
             }
         }
 
-        public IEnumerable<LogicalOperators> NameLOs { get; private set; }
-        public IEnumerable<LogicalOperators> VornameLOs { get; private set; }
-        public IEnumerable<LogicalOperators> GeburtsdatumVonLOs { get; private set; }
-        public IEnumerable<LogicalOperators> GeburtsdatumBisLOs { get; private set; }
+        public ICollection<LogicalOperators> NameLOs { get; set; }
+        public ICollection<LogicalOperators> VornameLOs { get; set; }
+        public ICollection<LogicalOperators> GeburtsdatumVonLOs { get; set; }
+        public ICollection<LogicalOperators> GeburtsdatumBisLOs { get; set; }
     }
 }

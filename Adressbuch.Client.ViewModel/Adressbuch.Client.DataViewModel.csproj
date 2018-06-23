@@ -7,8 +7,8 @@
     <ProjectGuid>{9D14ABFF-C308-414A-8117-F366375A70B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Adressbuch.Client.ViewModel</RootNamespace>
-    <AssemblyName>Adressbuch.Client.ViewModel</AssemblyName>
+    <RootNamespace>Adressbuch.Client.DataViewModel</RootNamespace>
+    <AssemblyName>Adressbuch.Client.DataViewModel</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,6 +49,10 @@
     <ProjectReference Include="..\Adressbuch.Common\Adressbuch.Common.csproj">
       <Project>{7A68EB62-8C91-4689-8F95-51F54C356741}</Project>
       <Name>Adressbuch.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Adressbuch.DataTransfer\Adressbuch.DataTransfer.csproj">
+      <Project>{F570B97C-5B28-4799-AE44-8DF8CF4FA9A5}</Project>
+      <Name>Adressbuch.DataTransfer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

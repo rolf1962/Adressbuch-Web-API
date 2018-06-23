@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Adressbuch.Client.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="400" Width="500">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -16,7 +16,10 @@
         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
             <DockPanel.Resources>
                 <Style TargetType="Label">
-                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="Width" Value="120"/>
+                </Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="Width" Value="150"/>
                 </Style>
             </DockPanel.Resources>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
@@ -26,13 +29,13 @@
                 <Label Content="Nachname:" DockPanel.Dock="Left"/>
                 <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.NameLO}"
                           ItemsSource="{Binding PersonSuchKriterien.NameLOs}" />
-                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Name}"/>
+                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label Content="Vorname:" DockPanel.Dock="Left"/>
                 <ComboBox DockPanel.Dock="Left" SelectedValue="{Binding PersonSuchKriterien.VornameLO}"
                           ItemsSource="{Binding PersonSuchKriterien.VornameLOs}" />
-                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Vorname}"/>
+                <TextBox DockPanel.Dock="Left" Text="{Binding PersonSuchKriterien.Vorname, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Label Content="Geburtsdatum von:" DockPanel.Dock="Left"/>
