@@ -131,6 +131,40 @@ namespace Adressbuch.Server.DataAccess
                     case LogicalOperators.Equals:
                         filter = filter.And(p => p.Geburtsdatum == searchCriteria.GeburtsdatumVon.Value);
                         break;
+                    case LogicalOperators.GreaterThan:
+                        filter = filter.And(p => p.Geburtsdatum > searchCriteria.GeburtsdatumVon.Value);
+                        break;
+                    case LogicalOperators.GreaterThanOrEqual:
+                        filter = filter.And(p => p.Geburtsdatum >= searchCriteria.GeburtsdatumVon.Value);
+                        break;
+                    case LogicalOperators.LessThan:
+                        filter = filter.And(p => p.Geburtsdatum < searchCriteria.GeburtsdatumVon.Value);
+                        break;
+                    case LogicalOperators.LessThanOrEqual:
+                        filter = filter.And(p => p.Geburtsdatum <= searchCriteria.GeburtsdatumVon.Value);
+                        break;
+                }
+            }
+
+            if (searchCriteria.GeburtsdatumBis.IsSpecified)
+            {
+                switch (searchCriteria.GeburtsdatumBis.LogicalOperator)
+                {
+                    case LogicalOperators.Equals:
+                        filter = filter.And(p => p.Geburtsdatum == searchCriteria.GeburtsdatumBis.Value);
+                        break;
+                    case LogicalOperators.GreaterThan:
+                        filter = filter.And(p => p.Geburtsdatum > searchCriteria.GeburtsdatumBis.Value);
+                        break;
+                    case LogicalOperators.GreaterThanOrEqual:
+                        filter = filter.And(p => p.Geburtsdatum >= searchCriteria.GeburtsdatumBis.Value);
+                        break;
+                    case LogicalOperators.LessThan:
+                        filter = filter.And(p => p.Geburtsdatum < searchCriteria.GeburtsdatumBis.Value);
+                        break;
+                    case LogicalOperators.LessThanOrEqual:
+                        filter = filter.And(p => p.Geburtsdatum <= searchCriteria.GeburtsdatumBis.Value);
+                        break;
                 }
             }
 
