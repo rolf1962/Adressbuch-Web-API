@@ -18,8 +18,10 @@ namespace Adressbuch.Common
             get
             {
                 List<LogicalOperators> returnValue = null;
+                string typeName = typeof(T).Name.StartsWith("Nullable") ? Nullable.GetUnderlyingType(typeof(T)).Name : typeof(T).Name;
+
                 var lOs = Enum.GetValues(typeof(LogicalOperators));
-                switch (typeof(T).Name)
+                switch (typeName)
                 {
                     case nameof(String):
                         returnValue = new List<LogicalOperators>(lOs.Cast<LogicalOperators>().Where(lo =>
