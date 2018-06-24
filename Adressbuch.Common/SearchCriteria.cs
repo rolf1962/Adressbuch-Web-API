@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Adressbuch.DataTransfer
+namespace Adressbuch.Common
 {
     public class SearchCriteria<T>
     {
@@ -13,7 +13,7 @@ namespace Adressbuch.DataTransfer
         public LogicalOperators LogicalOperator { get; set; }
         public bool IsSpecified { get; set; }
 
-        public ICollection<LogicalOperators> ValidOperators
+        public static ICollection<LogicalOperators> ValidOperators
         {
             get
             {

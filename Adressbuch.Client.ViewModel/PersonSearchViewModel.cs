@@ -23,11 +23,10 @@ namespace Adressbuch.Client.DataViewModel
 
         public PersonSearchViewModel()
         {
-            PersonSearchDto personSearchDto = new PersonSearchDto();
-            NameLOs= personSearchDto.Name.ValidOperators;
-            VornameLOs = personSearchDto.Vorname.ValidOperators;
-            GeburtsdatumVonLOs = personSearchDto.GeburtsdatumVon.ValidOperators;
-            GeburtsdatumBisLOs = personSearchDto.GeburtsdatumBis.ValidOperators;
+            NameLOs= SearchCriteria<string>.ValidOperators;
+            VornameLOs = SearchCriteria<string>.ValidOperators;
+            GeburtsdatumVonLOs = SearchCriteria<DateTime>.ValidOperators;
+            GeburtsdatumBisLOs = SearchCriteria<DateTime>.ValidOperators;
         }
 
         public string Name

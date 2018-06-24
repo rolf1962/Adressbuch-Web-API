@@ -48,7 +48,6 @@
     <Compile Include="PersonDto.cs" />
     <Compile Include="PersonSearchDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
