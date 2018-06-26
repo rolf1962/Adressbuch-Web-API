@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Adressbuch.DataTransfer
+namespace Adressbuch.Common
 {
     public class PersonSearchDto
     {

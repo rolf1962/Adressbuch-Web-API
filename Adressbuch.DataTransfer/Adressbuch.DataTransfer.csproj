@@ -46,7 +46,6 @@
     <Compile Include="AdresseDto.cs" />
     <Compile Include="DtoBase.cs" />
     <Compile Include="PersonDto.cs" />
-    <Compile Include="PersonSearchDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

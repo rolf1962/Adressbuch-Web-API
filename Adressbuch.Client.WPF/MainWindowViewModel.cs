@@ -1,5 +1,6 @@
 ﻿using Adressbuch.Client.DataAccess;
 using Adressbuch.Client.DataViewModel;
+using Adressbuch.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,10 +31,10 @@ namespace Adressbuch.Client.WPF
         private bool PersonSearchCmdCanExec(object p)
         {
             return
-                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Name)) ||
-                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Vorname)) ||
-                PersonSuchKriterien.GeburtsdatumVon.HasValue ||
-                PersonSuchKriterien.GeburtsdatumBis.HasValue;
+                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Name.Value)) ||
+                !(string.IsNullOrWhiteSpace(PersonSuchKriterien.Vorname.Value)) ||
+                PersonSuchKriterien.GeburtsdatumVon.Value.HasValue ||
+                PersonSuchKriterien.GeburtsdatumBis.Value.HasValue;
         }
 
         private async Task PersonSearchCmdExec(object p)
@@ -183,7 +184,7 @@ namespace Adressbuch.Client.WPF
             }
         }
 
-        public PersonSearchViewModel PersonSuchKriterien { get; } = new PersonSearchViewModel();
+        public PersonSearchDto PersonSuchKriterien { get; } = new PersonSearchDto();
 
         public bool DetailsTabSelected
         {
