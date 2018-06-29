@@ -61,18 +61,6 @@ namespace Adressbuch.Server.DataService.Controllers
         }
 
         /// <summary>
-        /// Request for <see cref="PersonDto"/>-Objects, with the submitted searchcriterias
-        /// </summary>
-        /// <param name="searchCriteria">A <see cref="PersonSearchDto"/>-Object with searchcriterias.</param>
-        /// <returns></returns>
-        /// <ToDo>TypeError: HEAD or GET Request cannot have a body. -> Add <see cref="PersonSearchDto"/> to Header.</ToDo>
-        //[HttpGet("search")]
-        //public async Task<IActionResult> GetBySearchCriteria([FromBody]PersonSearchDto searchCriteria)
-        //{
-        //    return Ok(await _repository.GetByCriteriaAsync(searchCriteria));
-        //}
-
-        /// <summary>
         /// Delete-Request for removing a specified <see cref="PersonDto"/>-Object (from the database)
         /// </summary>
         /// <param name="id">The <see cref="Guid"/> of the <see cref="PersonDto"/> to delete.</param>

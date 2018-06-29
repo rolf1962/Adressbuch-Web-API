@@ -11,6 +11,8 @@ namespace Adressbuch.Server.DbModel
     {
         public AdressbuchDbContext(string connectionString) : base(connectionString)
         {
+            Database.SetInitializer<AdressbuchDbContext>(null);
+
             Configuration.LazyLoadingEnabled = false;
             this.Database.CreateIfNotExists();
 

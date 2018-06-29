@@ -42,6 +42,7 @@ namespace Adressbuch.Server.DataService
             services.AddMvc();
             services.AddSingleton(x => new AdressbuchDbContext(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IAdresseRepository, AdresseRepository>();
 
             services.AddSwaggerGen(c =>
             {
